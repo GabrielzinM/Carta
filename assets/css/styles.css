@@ -1,0 +1,34 @@
+ /* Define a fonte padrão para o corpo */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Define a fonte especial para a carta */
+        .letter-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        /* Estilização da barra de rolagem (opcional, mas bonito) */
+        .letter-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .letter-scroll::-webkit-scrollbar-track {
+            background: #374151; /* gray-700 */
+        }
+        .letter-scroll::-webkit-scrollbar-thumb {
+            background: #9ca3af; /* gray-400 */
+            border-radius: 4px;
+        }
+        .letter-scroll::-webkit-scrollbar-thumb:hover {
+            background: #f3f4f6; /* gray-100 */
+        }
+
+        /* Estilo para a animação do emoji */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .animate-bounce-custom {
+            animation: bounce 1.5s infinite;
+        }

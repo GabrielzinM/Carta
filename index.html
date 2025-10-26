@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Você, Meu Amor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carrega as fontes do Google (Inter para UI, Dancing Script para a carta) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="shortcut icon" type="imagex/png" href="../Declaracao/assets/images/icon.webp">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Página de Boas-Vindas / Clique para Continuar -->
+    <div id="welcome-page" class="flex flex-col items-center justify-center min-h-screen w-full">
+        <button id="start-button"
+            class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-all transform hover:scale-105 duration-300">
+            <span class="text-3xl">Clique Aqui!</span>
+        </button>
+        <p class="mt-8 text-gray-400 text-lg">Uma surpresa espera por você...</p>
+    </div>
+
+    <!-- Container principal (escondido inicialmente) -->
+    <div id="main-content" class="hidden bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden pb-4">
+
+        <!-- 1. Player de Música (no topo, como na imagem) -->
+        <div id="music-player" class="p-4 bg-gray-700 relative">
+            <!-- 
+              !!! IMPORTANTE !!!
+              Troque o 'src' abaixo pela URL da sua música (pode ser .mp3, .wav, etc.)
+              Você pode hospedar sua música em um site como o Dropbox (link direto) ou outro serviço.
+            --><audio id="audio-player" src="./assets/audio/all of me.mpeg"
+                preload="auto"></audio>
+
+            <!-- Container principal do player: Capa + Controles -->
+            <div class="flex items-center space-x-4 mb-2">
+                <!-- 
+                  !!! IMPORTANTE !!!
+                  Troque o 'src' abaixo pela URL da IMAGEM DA CAPA da sua música.
+                -->
+                <img id="album-art" src="./assets/images/8.jpeg" alt="Capa do Álbum"
+                    class="w-16 h-16 rounded-lg shadow-md flex-shrink-0 object-cover">
+
+                <!-- Controles e Informações da Música -->
+                <div class="flex-grow">
+                    <div class="flex items-center space-x-3">
+                        <button id="play-pause-btn"
+                            class="bg-pink-600 text-white p-2 rounded-full shadow-md hover:bg-pink-700 transition-all flex-shrink-0">
+                            <i id="play-icon" class="ph ph-play text-xl" style="line-height: 0;"></i>
+                            <i id="pause-icon" class="ph ph-pause text-xl hidden" style="line-height: 0;"></i>
+                        </button>
+                        <div class="text-left">
+                            <!-- Edite o nome da música e artista aqui -->
+                            <h3 class="font-bold text-lg">All Of Me</h3>
+                            <p class="text-sm text-gray-400">John Legend</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de progresso da música -->
+            <div class="w-full bg-gray-600 rounded-full h-1.5 overflow-hidden mt-2">
+                <div id="progress-bar" class="bg-pink-500 h-1.5" style="width: 0%;"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                <span id="current-time">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <!-- 2. Carrossel de Fotos (com emojis e borda arredondada) -->
+        <div id="carousel" class="relative p-4 pt-0">
+            <!-- Emojis de reação -->
+            <div class="absolute inset-x-0 top-2 flex justify-around px-8 z-10">
+                <span class="text-3xl animate-bounce-custom" style="animation-delay: 0s;">😍</span>
+                <span class="text-3xl animate-bounce-custom" style="animation-delay: 0.3s;">🥰</span>
+                <span class="text-3xl animate-bounce-custom" style="animation-delay: 0.6s;">❤️</span>
+            </div>
+
+            <!-- A imagem da galeria será trocada via JavaScript -->
+            <div class="relative w-full aspect-square mt-8 mb-4"> <!-- Ajustado para um aspecto mais quadrado --><img
+                    id="carousel-image" src="./assets/images/1.jpeg" alt="Galeria de fotos"
+                    class="w-full h-full object-cover rounded-xl transition-opacity duration-300">
+
+                <!-- Botão Anterior --><button id="prev-btn"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full backdrop-blur-sm hover:bg-black/50 transition-all">
+                    <i class="ph ph-caret-left text-2xl" style="line-height: 0;"></i>
+                </button>
+
+                <!-- Botão Próximo --><button id="next-btn"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full backdrop-blur-sm hover:bg-black/50 transition-all">
+                    <i class="ph ph-caret-right text-2xl" style="line-height: 0;"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. Carta de Amor e Contador de Tempo -->
+        <div id="love-letter" class="p-6 pt-0 text-center">
+            <!-- Título (Edite aqui) -->
+            <h2 class="letter-font text-3xl md:text-4xl text-pink-400 mb-4">Você vem sendo meu mundo há:</h2>
+
+            <!-- Contador de tempo (como na imagem) -->
+            <div id="time-since" class="text-pink-300 text-lg md:text-xl font-bold mb-6">
+                <!-- O contador será atualizado via JavaScript -->
+            </div>
+
+            <!-- 
+              !!! IMPORTANTE !!!
+              Escreva sua carta aqui dentro. 
+              Use <p> para parágrafos.
+            -->
+            <div class="letter-scroll h-48 overflow-y-auto pr-2 space-y-4 text-white text-left">
+                <p>Amor da minha vida,</p>
+
+                <p>Tô escrevendo isso aqui entre uma tentativa de fazer o computador entender meu código e outro. Minha
+                cabecinha deveria ta focada em resolver um "BUG(problema)", mas, como sempre, ele tem o seu nome. Sabe, todo
+                código que eu escrevo precisa passar por um "compilador" – um programa que traduz o que eu escrevo para
+                uma linguagem que a máquina entende. Bem, o compilador do meu coração só funciona direito, só faz
+                sentido, quando está traduzindo sentimentos que têm a ver com você.</p>
+
+                <p>Caso o meu cérebro fosse um sistema/programa/plataforma, você não seria uma usuária comum, seria a administradora root, A DONA DA PORRA toda. 
+                Acredito que o meu hipocampo, igual ao seu, fez um "commit" – que é como salvar uma versão
+                definitiva de um projeto – de todas as memórias com você diretamente no arquivo principal da minha
+                felicidade. Não tem como voltar atrás e apagar.</p>
+
+                <p>O que eu sinto por você é como se fosse um "loop infinito" – uma instrução que se repete para sempre – que nunca
+                trava. Pelo contrário, a cada vez que ele se repete, fica mais forte. Meu sistema límbico está em
+                constante estado de "deploy" – que é quando a gente coloca uma atualização nova no ar – das últimas
+                versões do meu amor por você,resumindo, cada dia esse amor aumenta cada vez mais!</p>
+
+                <p>E sobre a tal mitose reversa que você falou e me explicou que ela não existe... no meu mundo de "TI" existe de certa forma, isso se chama "merge" – é quando dois
+                códigos diferentes se unem para virar um só. É o que eu quero fazer com a minha vida na sua: fundir
+                nossos projetos, "commitar" juntos todos os dias (fazer uma versão nova do nosso dia e de nossos mundos) e criar um projeto
+                de vida que seja código aberto para o mundo ver nossa felicidade, mas com a senha de acesso só para nós
+                dois.</p>
+
+               <p>A cada notificação sua, seja uma mensagem ou a sua voz, meu coração faz um ping – um teste para ver se
+                um servidor está respondendo – com uma resposta absurdamente rápida, e a mensagem que sempre aparece é: "Conexão de
+                amor estabelecida com sucesso". E os seus olhos castanhos? Eles são a interface de usuário (UI) mais
+                perfeita que já existiu. Um design tão intuitivo, tão único e tão bonito, que me faz querer ficar conectado neles pra
+                sempre, pois eles transmitem tanta verdade e tanto sentimentos que são magnifícos de se ver...</p>
+
+                <p>Você falou sobre paz e segurança. É isso. Estar com você é como encontrar a solução mais elegante para
+                um problema complexo. É aquele return true; – a linha de código que significa "deu certo, é verdadeiro"
+                – no final de um método difícil. É a paz de espírito de saber que, mesmo com todos os "bugs" (erros) da
+                vida, temos um ambiente seguro para testar, aprender e resolver tudo juntos.</p>
+
+                <p>E meu Deus, eu te entendo PERFEITAMENTE sobre o medo. Confesso que também desabilitei meus "alerts" – os
+                alertas do sistema por um tempo. Tinha medo de alguém dar um sudo rm -rf / – um comando tão perigoso que
+                apaga um sistema inteiro no meu coração de novo. Criei tantas camadas de "firewall" – uma barreira de
+                proteção pra me proteger que achei que ninguém conseguiria passar.</p>
+
+                <p>Mas aí você chegou, não como um vírus, mas como uma atualização de segurança que, na verdade, era a
+                versão final do sistema que eu sempre quis ser. Você não quebrou minhas defesas, você mostrou que eu
+                podia confiar nelas... em você. Meu coração fez um git pull – um comando para sincronizar e puxar as
+                atualizações mais recentes no seu e sincronizou tudo. Foi quando eu permiti que o amor, dessa vez,
+                compilasse(funcionasse) sem erros.</p>
+
+                <p>Obrigado por cada System.out.println("Te amo"); – que é o comando em Java(uma linguagem de programação) para imprimir "Te amo" na tela
+                que você imprime no meu dia a dia. Obrigado por ser a "exception" – que é o termo para um erro inesperado mais
+                linda que eu já quis capturar e abraçar.</p>
+
+                <p>Vitória, eu te amo de corpo, alma e código-fonte (o texto original por trás de todo programa). Saiba
+                que meu coração é um "repositório privado" – um projeto guardado a sete chaves, e você, somente você tem permissão
+                total para a vida toda.</p>
+
+                <p>A nossa é a melhor conexão que já existiu. 404 - Error: Heart not found without you. (O famoso erro
+                "Página não encontrada" – mas aqui significa "Coração não encontrado longe de você").</p>
+
+                <p>Te amo muito, meu amor!</p>
+
+                <p class="letter-font text-2xl text-pink-400">Gabriel.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../Declaracao/assets/js/script.js"></script>
+
+</body>
+
+</html>
